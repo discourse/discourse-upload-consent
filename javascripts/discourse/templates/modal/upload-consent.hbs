@@ -1,0 +1,31 @@
+{{#d-modal-body
+  rawTitle=(theme-i18n "discourse_upload_consent.modal.title")
+  style="overflow: visible"
+}}
+  <div class="details">
+    {{#if showError}}
+      <div class="alert alert-error">
+        {{d-icon "exclamation-triangle"}}
+        {{theme-i18n "discourse_upload_consent.modal.disagree_error"}}
+      </div>
+    {{/if}}
+
+    <div class="content consent-content">
+      {{cook-text (theme-i18n "discourse_upload_consent.modal.body")}}
+    </div>
+  </div>
+{{/d-modal-body}}
+
+<div class="modal-footer">
+  {{d-button
+    class="btn-primary pull-right"
+    action=(action "save")
+    translatedLabel=(theme-i18n "discourse_upload_consent.modal.save")
+  }}
+
+  {{d-button
+    class="cancel"
+    action=(action "cancel")
+    translatedLabel=(theme-i18n "discourse_upload_consent.modal.cancel")
+  }}
+</div>

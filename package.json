@@ -1,0 +1,10 @@
+{
+  "name": "discourse-upload-consent",
+  "version": "1.0.0",
+  "repository": "https://github.com/discourse/discourse-upload-consent",
+  "author": "Jean",
+  "license": "MIT",
+  "devDependencies": {
+    "eslint-config-discourse": "^3.1.0"
+  }
+}

@@ -1,0 +1,5 @@
+consent_enabled_categories:
+  type: list
+  list_type: category
+  default: ""
+  description: "Choose which categories requires consent to upload."
