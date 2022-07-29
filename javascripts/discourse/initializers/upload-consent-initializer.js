@@ -16,7 +16,7 @@ function initialize(api) {
       });
     },
     actions: {
-      save(ignore, event) {
+      save() {
         if (
           enabledCategories.includes(this.model.categoryId) &&
           uploadRegexp.test(this.model.reply)
