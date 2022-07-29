@@ -1,10 +1,8 @@
 en:
-  theme_metadata:
-    description: ""
   discourse_upload_consent:
     modal:
-      title: "TEST"
-      body: "### link"
+      title: "Community Terms of Service"
+      body: ""
       save: "I AGREE"
       cancel: "I DISAGREE"
       disagree_error: "Please, be sure to agree to our TOS before proceeding."

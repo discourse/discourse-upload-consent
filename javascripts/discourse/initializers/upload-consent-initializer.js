@@ -1,24 +1,12 @@
 import { withPluginApi } from "discourse/lib/plugin-api";
 import showModal from "discourse/lib/show-modal";
 
-const enabledCategories = settings.consent_enabled_categories
-  .split("|")
-  .map((id) => parseInt(id, 10));
-const uploadRegexp = /\(upload?:\/\/[\w\d./?=#]+\)/;
-
 function initialize(api) {
-  api.modifyClass("controller:basic-modal-body", {
-    showError: false,
-    actions: {
-      save() {
-        this.model.savePost();
-        this.send("closeModal");
-      },
-      cancel() {
-        this.set("showError", true);
-      },
-    },
-  });
+  const enabledCategories = settings.consent_enabled_categories
+    .split("|")
+    .map((id) => parseInt(id, 10));
+  const uploadRegexp = /\(upload?:\/\/[\w\d./?=#]+\)/;
+
   api.modifyClass("controller:composer", {
     savePost() {
       this.save(false, {
@@ -33,7 +21,7 @@ function initialize(api) {
           enabledCategories.includes(this.model.categoryId) &&
           uploadRegexp.test(this.model.reply)
         ) {
-          showModal("upload-consent", {
+          showModal("upload-consent-modal", {
             model: {
               savePost: this.savePost.bind(this),
             },
