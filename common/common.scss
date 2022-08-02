@@ -1,6 +1,7 @@
 .modal-body {
   .consent-content {
-    overflow: scroll;
+    overflow-y: scroll;
+    overflow-x: hidden;
     max-height: 410px;
   }
 }
