@@ -24,7 +24,7 @@ acceptance("Upload consent - On non-specified categories", function (needs) {
     );
 
     assert.dom(".topic-post").exists({ count: 20 }, "There are 20 posts");
-    assert.dom("#discourse-modal.in").doesNotExist("modal is not shown");
+    assert.dom(".modal.upload-consent").doesNotExist("modal is not shown");
 
     await click("#reply-control button.create");
     assert.dom(".topic-post").exists({ count: 21 }, "post created");
@@ -50,7 +50,7 @@ acceptance("Upload consent - On specified categories", function (needs) {
     await fillIn(".d-editor-input", "this is the *content* of a post");
 
     assert.dom(".topic-post").exists({ count: 20 }, "There are 20 posts");
-    assert.dom("#discourse-modal.in").doesNotExist("modal is not shown");
+    assert.dom(".modal.upload-consent").doesNotExist("modal is not shown");
 
     await click("#reply-control button.create");
     assert.dom(".topic-post").exists({ count: 21 }, "post created");
@@ -66,17 +66,17 @@ acceptance("Upload consent - On specified categories", function (needs) {
     assert.dom(".topic-post").exists({ count: 20 }, "there are 20 posts");
 
     await click("#reply-control button.create");
-    assert.dom("#discourse-modal.in").exists("modal is up");
+    assert.dom(".modal.upload-consent").exists("modal is up");
     assert.dom(".topic-post").exists({ count: 20 }, "posts are still 20");
 
-    await click("#discourse-modal button.cancel");
+    await click(".modal.upload-consent button.cancel");
     assert
       .dom(".modal-body .alert-error")
       .exists("show error Message if user disagrees");
 
-    await click("#discourse-modal button.btn-primary");
+    await click(".modal.upload-consent button.btn-primary");
     assert
       .dom(".topic-post")
-      .exists({ count: 21 }, "user grants consent - post is created.");
+      .exists({ count: 21 }, "user grants consent - post is created");
   });
 });
