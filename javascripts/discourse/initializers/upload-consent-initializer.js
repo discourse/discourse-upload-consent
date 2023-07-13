@@ -8,6 +8,8 @@ function initialize(api) {
   const uploadRegexp = /\(upload?:\/\/[\w\d./?=#]+\)/;
 
   api.modifyClass("controller:composer", {
+    pluginId: "discourse-upload-consent",
+
     savePost() {
       this.save(false, {
         jump:
@@ -15,6 +17,7 @@ function initialize(api) {
           !this.skipJumpOnSave,
       });
     },
+
     actions: {
       save() {
         if (
