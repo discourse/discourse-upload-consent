@@ -1,35 +1,37 @@
 import { withPluginApi } from "discourse/lib/plugin-api";
-import showModal from "discourse/lib/show-modal";
+import { inject as service } from "@ember/service";
+import UploadConsent from "../components/modal/upload-consent";
+
+const uploadRegexp = /\(upload?:\/\/[\w\d./?=#]+\)/;
 
 function initialize(api) {
-  const enabledCategories = settings.consent_enabled_categories
-    .split("|")
-    .map((id) => parseInt(id, 10));
-  const uploadRegexp = /\(upload?:\/\/[\w\d./?=#]+\)/;
+  api.modifyClass("service:composer", {
+    pluginId: "discourse-upload-consent",
 
-  api.modifyClass("controller:composer", {
-    savePost() {
-      this.save(false, {
-        jump:
-          !(event?.shiftKey && this.get("model.replyingToTopic")) &&
-          !this.skipJumpOnSave,
-      });
-    },
-    actions: {
-      save() {
-        if (
-          enabledCategories.includes(this.model.categoryId) &&
-          uploadRegexp.test(this.model.reply)
-        ) {
-          showModal("upload-consent-modal", {
-            model: {
-              savePost: this.savePost.bind(this),
+    modal: service(),
+
+    save() {
+      const enabledCategories = settings.consent_enabled_categories
+        .split("|")
+        .map((id) => parseInt(id, 10));
+
+      if (
+        enabledCategories.includes(this.model.categoryId) &&
+        uploadRegexp.test(this.model.reply)
+      ) {
+        const originalSave = this._super;
+        this.modal.show(UploadConsent, {
+          model: {
+            savePost: () => {
+              originalSave.call(this, false, {
+                jump: !this.model.replyingToTopic && !this.skipJumpOnSave,
+              });
             },
-          });
-        } else {
-          this.savePost();
-        }
-      },
+          },
+        });
+      } else {
+        this._super(...arguments);
+      }
     },
   });
 }
