@@ -13,7 +13,7 @@ function initialize(api) {
     savePost() {
       this.save(false, {
         jump:
-          !(event?.shiftKey && this.get("model.replyingToTopic")) &&
+          !(event?.shiftKey && this.model.replyingToTopic) &&
           !this.skipJumpOnSave,
       });
     },
