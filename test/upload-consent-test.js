@@ -41,10 +41,10 @@ acceptance("Upload consent - On specified categories", function (needs) {
     this._locale = I18n.locale;
     I18n.locale = "fr";
 
-    this._translations = I18n.translations;
     // e.g. `theme_translations.15.`
     const themeId = themePrefix("").split(".")[1];
 
+    this._translations = I18n.translations;
     I18n.translations = {
       fr: {
         js: {
