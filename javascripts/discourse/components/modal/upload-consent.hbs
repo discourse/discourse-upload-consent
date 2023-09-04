@@ -13,7 +13,9 @@
       {{/if}}
 
       <div class="content consent-content">
-        {{cook-text (theme-i18n "discourse_upload_consent.modal.body")}}
+        <CookText
+          @rawText={{theme-i18n "discourse_upload_consent.modal.body"}}
+        />
       </div>
     </div>
   </:body>
