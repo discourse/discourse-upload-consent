@@ -2,8 +2,6 @@ import { acceptance } from "discourse/tests/helpers/qunit-helpers";
 import { click, fillIn, visit } from "@ember/test-helpers";
 import { test } from "qunit";
 import I18n from "I18n";
-import { cloneJSON } from "discourse-common/lib/object";
-import { set } from "@ember/object";
 
 acceptance("Upload consent - On non-specified categories", function (needs) {
   needs.user();
