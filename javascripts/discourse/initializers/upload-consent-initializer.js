@@ -2,7 +2,6 @@ import { withPluginApi } from "discourse/lib/plugin-api";
 import UploadConsent from "../components/modal/upload-consent";
 
 const uploadRegexp = /\(upload?:\/\/[\w\d./?=#]+\)/;
-import { Promise } from "rsvp";
 
 function initialize(api) {
   const composerService = api.container.lookup("service:composer");
