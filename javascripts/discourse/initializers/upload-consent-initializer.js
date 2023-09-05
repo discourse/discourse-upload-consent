@@ -13,8 +13,8 @@ function initialize(api) {
     .map((id) => parseInt(id, 10));
 
   api.composerBeforeSave(() => {
-    const categoryId = composerService?.model?.categoryId;
-    const reply = composerService?.model?.reply;
+    const categoryId = composerService.model?.categoryId;
+    const reply = composerService.model?.reply;
 
     if (!categoryId || !reply) {
       return Promise.resolve();
