@@ -17,7 +17,7 @@ function initialize(api) {
     const reply = composerService.model?.reply;
 
     if (!categoryId || !reply) {
-      return Promise.resolve();
+      return;
     }
 
     return new Promise((resolve) => {
