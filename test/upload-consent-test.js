@@ -1,6 +1,7 @@
 import { acceptance } from "discourse/tests/helpers/qunit-helpers";
 import { click, fillIn, visit } from "@ember/test-helpers";
 import { test } from "qunit";
+import I18n from "I18n";
 
 acceptance("Upload consent - On non-specified categories", function (needs) {
   needs.user();
@@ -36,6 +37,34 @@ acceptance("Upload consent - On specified categories", function (needs) {
 
   needs.hooks.beforeEach(function () {
     settings.consent_enabled_categories = "2";
+
+    this._locale = I18n.locale;
+    I18n.locale = "fr";
+
+    // e.g. `theme_translations.15.`
+    const themeId = themePrefix("").split(".")[1];
+
+    this._translations = I18n.translations;
+    I18n.translations = {
+      fr: {
+        js: {
+          theme_translations: {
+            [themeId]: {
+              discourse_upload_consent: {
+                modal: {
+                  body: "The notice contents",
+                },
+              },
+            },
+          },
+        },
+      },
+    };
+  });
+
+  needs.hooks.afterEach(function () {
+    I18n.locale = this._locale;
+    I18n.translations = this._translations;
   });
 
   needs.pretender((server, helper) => {
@@ -68,6 +97,7 @@ acceptance("Upload consent - On specified categories", function (needs) {
     await click("#reply-control button.create");
     assert.dom(".modal.upload-consent").exists("modal is up");
     assert.dom(".topic-post").exists({ count: 20 }, "posts are still 20");
+    assert.dom(".consent-content").hasText("The notice contents");
 
     await click(".modal.upload-consent button.cancel");
     assert
