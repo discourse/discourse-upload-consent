@@ -20,17 +20,11 @@ function initialize(api) {
       return;
     }
 
-    return new Promise((resolve) => {
-      if (enabledCategories.includes(categoryId) && uploadRegexp.test(reply)) {
-        modal.show(UploadConsent, {
-          model: {
-            savePost: resolve,
-          },
-        });
-      } else {
-        return resolve();
-      }
-    });
+    if (!enabledCategories.includes(categoryId) || !uploadRegexp.test(reply)) {
+      return;
+    }
+
+    await modal.show(UploadConsent);
   });
 }
 
