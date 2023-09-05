@@ -1,38 +1,29 @@
 import { withPluginApi } from "discourse/lib/plugin-api";
-import { inject as service } from "@ember/service";
 import UploadConsent from "../components/modal/upload-consent";
 
 const uploadRegexp = /\(upload?:\/\/[\w\d./?=#]+\)/;
 
 function initialize(api) {
-  api.modifyClass("service:composer", {
-    pluginId: "discourse-upload-consent",
+  const composerService = api.container.lookup("service:composer");
+  const modal = api.container.lookup("service:modal");
 
-    modal: service(),
+  const enabledCategories = settings.consent_enabled_categories
+    .split("|")
+    .map((id) => parseInt(id, 10));
 
-    save() {
-      const enabledCategories = settings.consent_enabled_categories
-        .split("|")
-        .map((id) => parseInt(id, 10));
+  api.composerBeforeSave(async () => {
+    const categoryId = composerService.model?.categoryId;
+    const reply = composerService.model?.reply;
 
-      if (
-        enabledCategories.includes(this.model.categoryId) &&
-        uploadRegexp.test(this.model.reply)
-      ) {
-        const originalSave = this._super;
-        this.modal.show(UploadConsent, {
-          model: {
-            savePost: () => {
-              originalSave.call(this, false, {
-                jump: !this.model.replyingToTopic && !this.skipJumpOnSave,
-              });
-            },
-          },
-        });
-      } else {
-        this._super(...arguments);
-      }
-    },
+    if (!categoryId || !reply) {
+      return;
+    }
+
+    if (!enabledCategories.includes(categoryId) || !uploadRegexp.test(reply)) {
+      return;
+    }
+
+    await modal.show(UploadConsent);
   });
 }
 

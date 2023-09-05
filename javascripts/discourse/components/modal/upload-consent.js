@@ -7,7 +7,6 @@ export default class UploadConsent extends Component {
 
   @action
   save() {
-    this.args.model.savePost();
     this.args.closeModal();
   }
 
