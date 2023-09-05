@@ -12,7 +12,7 @@ function initialize(api) {
     .split("|")
     .map((id) => parseInt(id, 10));
 
-  api.composerBeforeSave(() => {
+  api.composerBeforeSave(async () => {
     const categoryId = composerService.model?.categoryId;
     const reply = composerService.model?.reply;
 
