@@ -7,13 +7,12 @@ export default class UploadConsent extends Component {
 
   @action
   save() {
-    this.args.model.savePost();
+    this.args.model?.savePost();
     this.args.closeModal();
   }
 
   @action
   cancel() {
-    this.args.model?.onCancel();
     this.showError = true;
   }
 }
