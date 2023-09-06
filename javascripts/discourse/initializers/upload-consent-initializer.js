@@ -1,5 +1,6 @@
 import { withPluginApi } from "discourse/lib/plugin-api";
 import UploadConsent from "../components/modal/upload-consent";
+import { Promise } from "rsvp";
 
 const uploadRegexp = /\(upload?:\/\/[\w\d./?=#]+\)/;
 
@@ -11,19 +12,25 @@ function initialize(api) {
     .split("|")
     .map((id) => parseInt(id, 10));
 
-  api.composerBeforeSave(async () => {
+  api.composerBeforeSave(() => {
     const categoryId = composerService.model?.categoryId;
     const reply = composerService.model?.reply;
 
     if (!categoryId || !reply) {
-      return;
+      return Promise.resolve();
     }
 
     if (!enabledCategories.includes(categoryId) || !uploadRegexp.test(reply)) {
-      return;
+      return Promise.resolve();
     }
 
-    await modal.show(UploadConsent);
+    return new Promise((resolve) => {
+      modal.show(UploadConsent, {
+        model: {
+          savePost: resolve,
+        },
+      });
+    });
   });
 }
 
