@@ -101,7 +101,7 @@ acceptance("Upload consent - On specified categories", function (needs) {
 
     await click(".modal.upload-consent button.cancel");
     assert
-      .dom(".modal-body .alert-error")
+      .dom(".d-modal__body .alert-error")
       .exists("show error Message if user disagrees");
 
     await click(".modal.upload-consent button.btn-primary");
