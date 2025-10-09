@@ -31,6 +31,6 @@ export default {
   name: "discourse-upload-consent",
 
   initialize() {
-    withPluginApi("1.2.0", initialize);
+    withPluginApi(initialize);
   },
 };
